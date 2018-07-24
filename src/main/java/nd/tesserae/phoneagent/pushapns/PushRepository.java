@@ -10,4 +10,5 @@ import java.util.List;
  */
 public interface PushRepository extends CrudRepository<Push, String> {
     List<Push> findAllByTimeSentIsNull();
+    List<Push> findTop20ByTimeSentIsNull();
 }

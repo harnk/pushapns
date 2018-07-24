@@ -22,21 +22,21 @@ public class PushService {
     @Autowired
     private PushRepository pushRepository;
 
-    public List<Push> getAllPushesNotSentYet() {
+    public List<Push> getSomePushesNotSentYet() {
         List<Push> pushes = new ArrayList<>();
-        pushes = pushRepository.findAllByTimeSentIsNull();
+        pushes = pushRepository.findTop20ByTimeSentIsNull();
         return pushes;
     }
 
-    public boolean sendPush(Push push){
+    public boolean sendAndUpdatePush(Push push){
         // Do APNS push
-        logger.info("// Do APNS push - TBD");
+//        logger.info("// Do APNS push - TBD");
 
         // If Successful, set time_sent
         long now = ZonedDateTime.now().toInstant().toEpochMilli();
-        logger.info("// If Successful, set time sent: "+now);
+//        logger.info("// If Successful, set time sent: "+now);
         push.setTimeSent(now);
-        logger.info("// Do I also need to do a save here - TBD");
+        updatePush(push.getId(),push);
         return true;
     }
 

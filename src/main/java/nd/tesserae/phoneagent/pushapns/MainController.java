@@ -23,16 +23,16 @@ public class MainController {
     @Autowired
     private PushService pushService;
 
-    //Executes each 5000 ms chg this to 10 minutes later (600,000)
-    @Scheduled(fixedRate = 10000)
+    //Executes each 2000 ms
+    @Scheduled(fixedRate = 2000)
     public void doMainLoop() {
         logger.info("MAIN LOOP IS WORKING ");
         List<Push> pushes = new ArrayList<>();
-        pushes = pushService.getAllPushesNotSentYet();
+        // Grab 20 records that haven't been sent
+        pushes = pushService.getSomePushesNotSentYet();
+        // Send 20 APNS pushes
         for (Push push : pushes) {
-//            logger.info("Pushing ... ");
-            pushService.sendPush(push);
-            pushService.updatePush(push.getId(),push);
+            pushService.sendAndUpdatePush(push);
         }
     }
 }
