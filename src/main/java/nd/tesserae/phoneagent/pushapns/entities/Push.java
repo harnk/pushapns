@@ -11,17 +11,17 @@ public class Push {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;                // auto
+    private Long id;                // auto
     private String deviceToken;     // 36c67b3925efab91dfd996c7ac5edcc2c4e39cb79d85943f246389476e6f3df4
     private String payload;         // {‘aps’:{“alert”:’111’,’sensor_config’:[{*},{**},{***}]}
     // *    "duty_cycle_interval": 10, "interval": 1, "sensor": "acc"
     // **   "duty_cycle_interval": 10, "interval": 1, "sensor": "act"
     // ***  "duty_cycle_interval": 10, "interval": 1, "sensor": "loc"
     // **** "duty_cycle_interval": 10, "interval": 1, "sensor": "aud"
-    private long timeQueued;        // 1513632469879
-    private long timeSent;          // NULL or 1532438378122
+    private Long timeQueued;        // 1513632469879
+    private Long timeSent;          // NULL or 1532438378122
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -41,19 +41,19 @@ public class Push {
         this.payload = payload;
     }
 
-    public long getTimeQueued() {
+    public Long getTimeQueued() {
         return timeQueued;
     }
 
-    public void setTimeQueued(long timeQueued) {
+    public void setTimeQueued(Long timeQueued) {
         this.timeQueued = timeQueued;
     }
 
-    public long getTimeSent() {
+    public Long getTimeSent() {
         return timeSent;
     }
 
-    public void setTimeSent(long timeSent) {
+    public void setTimeSent(Long timeSent) {
         this.timeSent = timeSent;
     }
 }

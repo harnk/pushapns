@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -20,15 +22,21 @@ public class PushService {
     @Autowired
     private PushRepository pushRepository;
 
+    public List<Push> getAllPushesNotSentYet() {
+        List<Push> pushes = new ArrayList<>();
+        pushes = pushRepository.findAllByTimeSentIsNull();
+        return pushes;
+    }
+
     public boolean sendPush(Push push){
         // Do APNS push
         logger.info("// Do APNS push - TBD");
 
         // If Successful, set time_sent
-        logger.info("// If Successful, set time_sent");
         long now = ZonedDateTime.now().toInstant().toEpochMilli();
-        logger.info("time sent: "+now);
+        logger.info("// If Successful, set time sent: "+now);
         push.setTimeSent(now);
+        logger.info("// Do I also need to do a save here - TBD");
         return true;
     }
 
@@ -40,7 +48,7 @@ public class PushService {
         pushRepository.save(push);
     }
 
-    public void updatePush(String id, Push push) {
+    public void updatePush(Long id, Push push) {
         pushRepository.save(push);
     }
 
