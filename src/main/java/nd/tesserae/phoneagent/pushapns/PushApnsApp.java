@@ -29,7 +29,7 @@ public class PushApnsApp implements CommandLineRunner {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Value("${source_db_path}")
-	private String sourceDatabase;
+	private String sourceDatabasePath;
 
 	@Value("${mqtt_url}")
 	private String mqttURL;
@@ -60,7 +60,7 @@ public class PushApnsApp implements CommandLineRunner {
 	public void run(String... strings) throws Exception {
 		String userHome = System.getProperty("user.home");
 		logger.info("Settings from " + userHome + "/queuetokens.properties ...");
-		logger.info("sourceDatabase: " + sourceDatabase);
+		logger.info("sourceDatabasePath: " + sourceDatabasePath);
 		logger.info("mqttURL: " + mqttURL);
 		logger.info("userName: " + userName);
 	}
