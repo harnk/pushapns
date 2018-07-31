@@ -5,6 +5,7 @@ import nd.tesserae.phoneagent.pushapns.service.PushService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 
@@ -23,17 +24,19 @@ public class MainController {
     @Autowired
     private PushService pushService;
 
-    //Executes each 2000 ms
-    @Scheduled(fixedRate = 50000)
+    @Value("${apns_batch_size:20}")
+    private int apnsBatchSize;
+
+    @Scheduled(fixedDelayString = "${apns_interval_time_ms:2000}")
     public void doMainLoop() {
         logger.info("MAIN LOOP IS WORKING ");
 
-        pushService.sendTestPush("to a diff app");
+        pushService.sendTestPush("this test push needs to be removed later"); // TBRemoved
 
         List<Push> pushes = new ArrayList<>();
-        // Grab 20 records that haven't been sent
-        pushes = pushService.getSomePushesNotSentYet();
-        // Send 20 APNS pushes
+        // Grab a batch of records that haven't been sent
+        pushes = pushService.getSomePushesNotSentYet(apnsBatchSize);
+        // Send the APNS pushes
         for (Push push : pushes) {
             pushService.sendAndUpdatePush(push);
 //            pushService.sendTestPush(push.getDeviceToken());

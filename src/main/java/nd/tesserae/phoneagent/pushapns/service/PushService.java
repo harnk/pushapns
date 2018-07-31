@@ -7,6 +7,7 @@ import nd.tesserae.phoneagent.pushapns.entities.Push;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
@@ -28,9 +29,9 @@ public class PushService {
     @Autowired
     private PushRepository pushRepository;
 
-    public List<Push> getSomePushesNotSentYet() {
+    public List<Push> getSomePushesNotSentYet(int howMany) {
         List<Push> pushes = new ArrayList<>();
-        pushes = pushRepository.findTop20ByTimeSentIsNull();
+        pushes = pushRepository.findAllByTimeSentIsNull(new PageRequest(0,howMany));
         return pushes;
     }
 
