@@ -31,7 +31,8 @@ public class MainController {
     public void doMainLoop() {
         logger.info("MAIN LOOP IS WORKING ");
 
-        pushService.sendTestPush("this test push needs to be removed later"); // TBRemoved
+//        pushService.sendTestPush("test push to WhereRU app"); // TBRemoved
+        pushService.sendTestPush2("test push to Tesserae Phone Agent app thru sandbox"); // TBRemoved
 
         List<Push> pushes = new ArrayList<>();
         // Grab a batch of records that haven't been sent

@@ -41,14 +41,29 @@ public class PushService {
                 .withCert("pushapns.p12", "pushapns")
                 .withAppleDestination(true)
                 .build();
-        String payload = APNS.newPayload()
-                .alertBody(junkStr)
-                .alertTitle("sendTestPush 2 Tess").build();
 
-        String token = "36c67b3925efab91dfd996c7ac5edcc2c4e39cb79d85943f246389476e6f3df4"; // my iPhone 6
+
+        // {"alert":"what do you think?","aps":{"badge":3,"alert":{"loc-args":["Jenna","Frank"],"action-loc-key":"Play","loc-key":"GAME_PLAY_REQUEST_FORMAT"}}}
+        String payload = APNS.newPayload()
+                .badge(3)
+                .customField("alert", "what do you think?")
+                .localizedKey("GAME_PLAY_REQUEST_FORMAT")
+                .localizedArguments("Jenna", "Frank")
+                .actionKey("Play").build();
+
+
+        payload = "{\"aps\":{\"alert\":\"111\",\"sensor_config\":[{\"duty_cycle_interval\": 10, \"interval\": 1, \"sensor\": \"acc\"},{\"duty_cycle_interval\": 10, \"interval\": 1, \"sensor\": \"loc\"},{\"duty_cycle_interval\": 10, \"interval\": 1, \"sensor\": \"act\"}]}}";
+//        payload = "{\"aps\":{\"alert\":\"log\"}}";
+//        payload = "{\"aps\":{\"alert\":\"restart\"}}";
+
+        // {‘aps’:{“alert”:’111’,’sensor_config’:{    }}
+
+
+        String token = "36c67b3925efab91dfd996c7ac5edcc2c4e39cb79d85943f246389476e6f3df4"; // my iPhone 6 for Tesserae
+//        String token = "c59acd53f88b8947db1428a7abaedc1d0ddc0b9defd6335f0b61c8569ef1ea42"; // my iPhone 6 for WhereRU
         logger.info("payload:"+payload);
         service.push(token, payload);
-        logger.info("the message was hopefully sent:"+payload);
+        logger.info("the message was hopefully sent: "+payload);
     }
 
     public void sendTestPush(String junkStr){
@@ -67,8 +82,25 @@ public class PushService {
         logger.info("the message was hopefully sent:"+payload);
     }
 
+    public void sendTestPush3(String junkStr){
+        // Do APNS push
+        ApnsService service = APNS.newService()
+                .withCert("pushapns.p12", "pushapns")
+                .withSandboxDestination()
+                .build();
+        String payload = APNS.newPayload()
+                .alertBody(junkStr)
+                .alertTitle("sendTestPush 3").build();
+
+        String token = "36c67b3925efab91dfd996c7ac5edcc2c4e39cb79d85943f246389476e6f3df4"; // my iPhone 6
+        logger.info("payload:"+payload);
+        service.push(token, payload);
+        logger.info("the message was hopefully sent:"+payload);
+    }
+
     public boolean sendAndUpdatePush(Push push){
         // Do APNS push
+        logger.info("TBD - do APNS service.push to token: " + push.getDeviceToken()+ " with payload: "+push.getPayload());
 
         // If Successful, set time_sent
         long now = ZonedDateTime.now().toInstant().toEpochMilli();
